@@ -1,0 +1,30 @@
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<center>
+    <form action="/planes/edit" th:object="${planeDto}" method="post">
+        <input type="hidden" name="id" th:value="${id}" />
+
+        <label for="modelName">Name of model: </label>
+        <input type="text" th:field="*{modelName}" th:value="${planeDto.modelName}"
+               id="modelName" placeholder="ЯК-1" />
+        <br/>
+        <label for="maxVelocity">Maximum speed: </label>
+        <input type="number" th:field="*{maxVelocity}" th:value="${planeDto.maxVelocity}"
+               id="maxVelocity" min="150" max="15000" value="500" placeholder="km/h" />
+        <br/>
+        <label for="maxHeight">Maximum height: </label>
+        <input type="number" th:field="*{maxHeight}" th:value="${planeDto.maxHeight}"
+               id="maxHeight" min="500" max="25000" value="2000" placeholder="meters" />
+        <br/>
+        <label for="minPilotsNumber">Minimum count of pilots: </label>
+        <input type="number" th:field="*{minPilotsNumber}" th:value="${planeDto.minPilotsNumber}"
+               id="minPilotsNumber" min="0" max="10" value="2" />
+        <br/>
+        <input type="submit" value="Edit plane" />
+    </form>
+</center>
+</body>
+</html>

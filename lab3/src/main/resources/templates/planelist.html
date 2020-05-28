@@ -1,0 +1,33 @@
+<html xmlns:th = "http://www.thymeleaf.org">
+    <div th:switch="${planes == null || planes.size() == 0}">
+        <h1 th:case="true">No planes registered</h1>
+        <table th:case="false" rules="all" frame="none" cellspacing="5">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Максимальная скорость</th>
+                    <th>Максимальная высота полета</th>
+                    <th>Минимальное количество членов экипажа</th>
+                </tr>
+            </thead>
+            <tr th:each="plane : ${planes}">
+                <td th:text="${plane.getModelName()}"></td>
+                <td th:text="${plane.getMaxVelocity()} + ' км/ч'"></td>
+                <td th:text="${plane.getMaxHeight()} + ' м'"></td>
+                <td th:text="${plane.getMinPilotsNumber()} + ' чел'"></td>
+                <td>
+                    <form action="/planes/delete">
+                        <input type="hidden" name="id" th:value="${plane.getId()}">
+                        <input type="submit" value="Delete" />
+                    </form>
+                </td>
+                <td>
+                    <form action="/planes/edit/form">
+                        <input type="hidden" name="id" th:value="${plane.getId()}">
+                        <input type="submit" value="Edit" />
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</html>
