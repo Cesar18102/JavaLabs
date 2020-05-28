@@ -2,10 +2,7 @@ package oleh.kyrychenko.lab2.models;
 
 import oleh.kyrychenko.lab2.dto.PlaneDto;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 @Entity
 public class Plane {
@@ -31,14 +28,16 @@ public class Plane {
         setMinPilotsNumber(planeDto.getMinPilotsNumber());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getModelName() {
         return modelName;
     }
-
     public void setModelName(String modelName) {
         this.modelName = modelName;
     }
@@ -46,7 +45,6 @@ public class Plane {
     public double getMaxVelocity() {
         return maxVelocity;
     }
-
     public void setMaxVelocity(double maxVelocity) {
         this.maxVelocity = maxVelocity;
     }
@@ -54,7 +52,6 @@ public class Plane {
     public double getMaxHeight() {
         return maxHeight;
     }
-
     public void setMaxHeight(double maxHeight) {
         this.maxHeight = maxHeight;
     }
@@ -62,7 +59,6 @@ public class Plane {
     public int getMinPilotsNumber() {
         return minPilotsNumber;
     }
-
     public void setMinPilotsNumber(int minPilotsNumber) {
         this.minPilotsNumber = minPilotsNumber;
     }

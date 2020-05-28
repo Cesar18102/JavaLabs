@@ -1,14 +1,18 @@
 package oleh.kyrychenko.lab2.controllers;
 
 import oleh.kyrychenko.lab2.dto.PlaneDto;
+import oleh.kyrychenko.lab2.dto.ConcretePlaneDto;
+
 import oleh.kyrychenko.lab2.models.Plane;
+import oleh.kyrychenko.lab2.models.ConcretePlane;
+
 import oleh.kyrychenko.lab2.services.PlaneService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -54,12 +58,28 @@ public class PlaneController {
     }
 
     @RequestMapping(value = "/edit", params = "id", method = RequestMethod.POST)
-    public ResponseEntity<Plane> editPlane(int id, PlaneDto planeDto) {
+    public ResponseEntity<Plane> editPlane(int id, @RequestBody PlaneDto planeDto) {
         try {
             Plane edited = planeService.editPlaneWithId(id, planeDto);
             return new ResponseEntity<Plane>(edited, HttpStatus.OK);
         } catch (NoSuchElementException ex) {
             return new ResponseEntity<Plane>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(value = "/concrete/add", method = RequestMethod.POST)
+    public ResponseEntity<ConcretePlane> addConcretePlane(@RequestBody ConcretePlaneDto concretePlaneDto) {
+        try {
+            ConcretePlane concretePlane = planeService.registerConcretePlane(concretePlaneDto);
+            return new ResponseEntity<ConcretePlane>(concretePlane, HttpStatus.OK);
+        } catch (NoSuchElementException ex) {
+            return new ResponseEntity<ConcretePlane>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/concrete/get", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<ConcretePlane>> getConcretePlanes() {
+        Iterable<ConcretePlane> concretePlanes = planeService.getConcretePlanes();
+        return new ResponseEntity<Iterable<ConcretePlane>>(concretePlanes, HttpStatus.OK);
     }
 }

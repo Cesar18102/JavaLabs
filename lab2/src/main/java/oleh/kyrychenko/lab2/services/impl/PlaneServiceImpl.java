@@ -1,7 +1,10 @@
 package oleh.kyrychenko.lab2.services.impl;
 
+import oleh.kyrychenko.lab2.dto.ConcretePlaneDto;
 import oleh.kyrychenko.lab2.dto.PlaneDto;
+import oleh.kyrychenko.lab2.models.ConcretePlane;
 import oleh.kyrychenko.lab2.models.Plane;
+import oleh.kyrychenko.lab2.repo.ConcretePlaneRepo;
 import oleh.kyrychenko.lab2.repo.PlaneRepo;
 import oleh.kyrychenko.lab2.services.PlaneService;
 
@@ -16,6 +19,9 @@ public class PlaneServiceImpl implements PlaneService {
 
     @Autowired
     private PlaneRepo planeRepo;
+
+    @Autowired
+    private ConcretePlaneRepo concretePlaneRepo;
 
     @Override
     public Iterable<Plane> getAllPlanes() {
@@ -43,8 +49,7 @@ public class PlaneServiceImpl implements PlaneService {
     @Override
     public Plane createPlane(PlaneDto planeDto) {
         Plane plane = new Plane(planeDto);
-        planeRepo.save(plane);
-        return plane;
+        return planeRepo.save(plane);
     }
 
     @Override
@@ -56,8 +61,26 @@ public class PlaneServiceImpl implements PlaneService {
         }
 
         plane.MapFrom(planeDto);
-        planeRepo.save(plane);
+        return planeRepo.save(plane);
+    }
 
-        return plane;
+    @Override
+    public ConcretePlane registerConcretePlane(ConcretePlaneDto concretePlaneDto) {
+        Plane plane = getPlaneById(concretePlaneDto.getPlaneId());
+
+        if(plane == null) {
+            throw new NoSuchElementException();
+        }
+
+        ConcretePlane concretePlane = new ConcretePlane();
+        concretePlane.setPlane(plane);
+        concretePlane.setBuildYear(concretePlaneDto.getBuildYear());
+
+        return concretePlaneRepo.save(concretePlane);
+    }
+
+    @Override
+    public Iterable<ConcretePlane> getConcretePlanes() {
+        return concretePlaneRepo.findAll();
     }
 }
